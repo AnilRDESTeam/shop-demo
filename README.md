@@ -19,16 +19,23 @@ git --version
 ```powershell
 git clone https://github.com/AnilRDESTeam/shop-demo.git
 cd shop-demo
-powershell -ExecutionPolicy Bypass -File scripts\setup.ps1
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.venv\Scripts\python.exe -m playwright install chromium
 ```
 
 Clone into a folder that is **not** synced by OneDrive (synced folders can lock `.venv` files).
-On macOS/Linux use `scripts/setup.sh` instead.
+These are plain commands, so they work even where running `.ps1` scripts is disabled.
+Nobody needs to "activate" the venv: always call `.venv\Scripts\python.exe` directly.
+If the Chromium download is blocked, skip the last line and see Troubleshooting.
+On macOS/Linux use `.venv/bin/python` instead of `.venv\Scripts\python.exe`.
+
+(Optional) `scripts\setup.ps1`, `run.ps1`, `test.ps1` and `e2e.ps1` do the same thing in one step, but only if your PC allows running PowerShell scripts. `.sh` versions are also in `scripts/`.
 
 ## 3. Run the app
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts\run.ps1
+.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8080 --reload
 ```
 
 Open http://localhost:8080 and do this 5-step check:
@@ -42,8 +49,8 @@ Open http://localhost:8080 and do this 5-step check:
 ## 4. Run the tests
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts\test.ps1   # unit + API tests
-powershell -ExecutionPolicy Bypass -File scripts\e2e.ps1    # browser tests (own server on port 8099)
+.venv\Scripts\python.exe -m pytest           # unit + API tests
+.venv\Scripts\python.exe -m pytest -m e2e    # browser tests (own server on port 8099)
 ```
 
 ## 5. Reset data
@@ -77,10 +84,10 @@ API details: [docs/API.md](docs/API.md).
 
 | Problem | Fix |
 |---|---|
-| Port already in use | `$env:PORT=8081` then run `scripts\run.ps1` again |
+| Port already in use | Use another port: `.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8081 --reload` |
 | `python` not found | Install Python 3.11+ and reopen PowerShell |
-| "running scripts is disabled" | Use `powershell -ExecutionPolicy Bypass -File scripts\<name>.ps1` |
-| Chromium download blocked | `$env:SHOP_BROWSER_CHANNEL='msedge'` (uses installed Edge), then run `scripts\e2e.ps1` |
+| "running scripts is disabled" | Don't use the `.ps1` scripts; use the plain `.venv\Scripts\python.exe ...` commands in this README |
+| Chromium download blocked | `$env:SHOP_BROWSER_CHANNEL='msedge'` (uses installed Edge), then `.venv\Scripts\python.exe -m pytest -m e2e` |
 | `/api/health` shows `"dirty": true` | You have uncommitted changes in the repo; commit or stash them |
 
 ## 8. Git workflow
