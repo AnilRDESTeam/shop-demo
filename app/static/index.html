@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop Demo</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="#/">Shop Demo</a>
+    <label class="customer">
+      Customer
+      <select data-testid="customer-select"></select>
+    </label>
+    <a class="cart-link" href="#/cart" data-testid="nav-cart">
+      Cart (<span data-testid="cart-count">0</span>)
+    </a>
+  </header>
+
+  <div class="error-banner" data-testid="error-banner" hidden></div>
+
+  <main id="view"></main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

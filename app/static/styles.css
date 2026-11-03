@@ -1,0 +1,76 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Segoe UI, Arial, sans-serif;
+  background: #f4f6f8;
+  color: #1f2933;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 24px;
+  background: #1f3a5f;
+  color: #fff;
+}
+.header a { color: #fff; text-decoration: none; }
+.brand { font-size: 1.4rem; font-weight: 600; margin-right: auto; }
+.customer select { margin-left: 6px; padding: 4px; }
+
+.error-banner {
+  background: #fde8e8;
+  color: #9b1c1c;
+  border: 1px solid #f5b5b5;
+  padding: 10px 24px;
+}
+
+main { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.card h3 { margin: 0 0 6px; }
+.card p { margin: 0 0 10px; color: #52606d; }
+.price { font-weight: 600; font-size: 1.1rem; }
+
+button {
+  background: #2f6fed;
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+button:hover { background: #1f57c4; }
+button.secondary { background: #e4e7eb; color: #1f2933; }
+
+.line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e4e7eb;
+}
+.line .name { flex: 1; }
+.line .qty { min-width: 24px; text-align: center; }
+
+.summary { margin-top: 16px; }
+.summary div { display: flex; justify-content: space-between; padding: 4px 0; }
+.summary .total { font-weight: 700; font-size: 1.15rem; border-top: 2px solid #1f2933; margin-top: 6px; }
+.badge {
+  background: #d7f5dd;
+  color: #166534;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-size: 0.8rem;
+  margin-left: 8px;
+}
+.actions { margin-top: 20px; display: flex; gap: 10px; }
