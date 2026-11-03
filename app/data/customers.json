@@ -1,0 +1,5 @@
+[
+  {"id": "new-customer-01", "name": "Nina New", "type": "registered", "order_count": 0},
+  {"id": "returning-customer-01", "name": "Ravi Returning", "type": "registered", "order_count": 3},
+  {"id": "guest", "name": "Guest Shopper", "type": "guest", "order_count": 0}
+]
