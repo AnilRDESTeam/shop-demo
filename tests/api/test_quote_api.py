@@ -33,10 +33,25 @@ def test_test_sku_just_below_threshold_pays_shipping(client):
     assert body["total"] == 55.98
 
 
-def test_discount_fields_are_empty(client):
-    body = quote(client, [{"sku": "HOODIE-001", "qty": 1}], customer="new-customer-01").json()
+def test_welcome_discount_for_new_customer(client):
+    body = quote(client, [{"sku": "MUG-001", "qty": 1}], customer="new-customer-01").json()
+    assert body["discount"] == 1.2
+    assert body["discount_label"] == "Welcome 10%"
+    assert body["total"] == 16.79   # 12.00 - 1.20 + 5.99
+
+
+def test_no_discount_for_returning_customer_or_guest(client):
+    for customer in (RETURNING, "guest"):
+        body = quote(client, [{"sku": "MUG-001", "qty": 1}], customer=customer).json()
+        assert body["discount"] == 0.0
+        assert body["discount_label"] is None
+
+
+def test_no_discount_after_first_order(client):
+    items = [{"sku": "MUG-001", "qty": 1}]
+    client.post("/api/orders", json={"customer_id": "new-customer-01", "items": items})
+    body = quote(client, items, customer="new-customer-01").json()
     assert body["discount"] == 0.0
-    assert body["discount_label"] is None
 
 
 def test_unknown_sku_404(client):

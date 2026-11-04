@@ -7,6 +7,8 @@ APP_VERSION = "1.0.0"
 
 FREE_SHIPPING_THRESHOLD = Decimal("50.00")   # orders at or above this ship free
 STANDARD_SHIPPING_FEE = Decimal("5.99")
+WELCOME_DISCOUNT_RATE = Decimal("0.10")   # first-order discount for registered customers
+WELCOME_DISCOUNT_LABEL = "Welcome 10%"
 CURRENCY = "USD"
 MAX_QTY_PER_LINE = 10
 MAX_LINES_PER_CART = 20
