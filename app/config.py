@@ -5,7 +5,7 @@ from decimal import Decimal
 APP_NAME = "shop-demo"
 APP_VERSION = "1.0.0"
 
-FREE_SHIPPING_THRESHOLD = Decimal("50.00")   # orders at or above this ship free
+FREE_SHIPPING_THRESHOLD = Decimal("75.00")   # orders at or above this ship free
 STANDARD_SHIPPING_FEE = Decimal("5.99")
 CURRENCY = "USD"
 MAX_QTY_PER_LINE = 10

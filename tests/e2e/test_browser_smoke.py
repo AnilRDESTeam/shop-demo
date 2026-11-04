@@ -62,13 +62,14 @@ def test_free_shipping_and_receipt(page):
     page.goto(f"{BASE}/?customer=returning-customer-01")
     tid(page, "add-to-cart-MUG-001").click()
     tid(page, "add-to-cart-HOODIE-001").click()
+    tid(page, "add-to-cart-BAG-001").click()
     tid(page, "nav-cart").click()
 
     expect(tid(page, "cart-shipping")).to_have_text("$0.00")
     expect(tid(page, "cart-free-shipping-badge")).to_be_visible()
 
     tid(page, "place-order").click()
-    expect(tid(page, "receipt-total")).to_have_text("$57.00")
+    expect(tid(page, "receipt-total")).to_have_text("$82.00")
     expect(tid(page, "receipt-discount-row")).to_have_count(0)
 
 

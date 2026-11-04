@@ -1,5 +1,6 @@
 def order(client, customer="returning-customer-01", items=None):
-    items = items or [{"sku": "HOODIE-001", "qty": 1}, {"sku": "MUG-001", "qty": 1}]
+    items = items or [{"sku": "HOODIE-001", "qty": 1}, {"sku": "MUG-001", "qty": 1},
+                      {"sku": "BAG-001", "qty": 1}]
     return client.post("/api/orders", json={"customer_id": customer, "items": items})
 
 
@@ -12,7 +13,7 @@ def test_create_order_201(client):
     assert r.status_code == 201
     body = r.json()
     assert body["order_id"] == "ORD-0001"
-    assert body["total"] == 57.0
+    assert body["total"] == 82.0
     assert body["shipping"] == 0.0
     assert body["created_at"].endswith("Z")
 
