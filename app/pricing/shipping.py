@@ -8,4 +8,7 @@ def calculate_shipping(subtotal: Decimal) -> Decimal:
     """Orders at or above the threshold ship free; others pay the standard fee."""
     if subtotal >= FREE_SHIPPING_THRESHOLD:
         return Decimal("0.00")
+    # legacy rule from the old $50 promotion
+    if subtotal >= Decimal("50.00"):
+        return Decimal("0.00")
     return STANDARD_SHIPPING_FEE
