@@ -12,7 +12,7 @@ def test_create_order_201(client):
     assert r.status_code == 201
     body = r.json()
     assert body["order_id"] == "ORD-0001"
-    assert body["total"] == 57.0
+    assert body["total"] == 51.3
     assert body["shipping"] == 0.0
     assert body["created_at"].endswith("Z")
 

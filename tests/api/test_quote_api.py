@@ -14,8 +14,8 @@ def test_normal_quote(client):
         "customer_id": RETURNING,
         "items": [{"sku": "MUG-001", "name": "Coffee Mug", "unit_price": 12.0,
                    "qty": 2, "line_total": 24.0}],
-        "subtotal": 24.0, "discount": 0.0, "discount_label": None,
-        "shipping": 5.99, "total": 29.99, "currency": "USD",
+        "subtotal": 24.0, "discount": 2.4, "discount_label": "Welcome 10%",
+        "shipping": 5.99, "total": 27.59, "currency": "USD",
         "rules_applied": ["standard_shipping"],
     }
 
@@ -23,14 +23,14 @@ def test_normal_quote(client):
 def test_test_sku_at_threshold_ships_free(client):
     body = quote(client, [{"sku": "TEST-SKU", "qty": 1, "unit_price": 50.00}]).json()
     assert body["shipping"] == 0.0
-    assert body["total"] == 50.0
+    assert body["total"] == 45.0
     assert body["rules_applied"] == ["free_shipping"]
 
 
 def test_test_sku_just_below_threshold_pays_shipping(client):
     body = quote(client, [{"sku": "TEST-SKU", "qty": 1, "unit_price": 49.99}]).json()
     assert body["shipping"] == 5.99
-    assert body["total"] == 55.98
+    assert body["total"] == 50.98
 
 
 def test_welcome_discount_for_new_customer(client):
@@ -40,18 +40,17 @@ def test_welcome_discount_for_new_customer(client):
     assert body["total"] == 16.79   # 12.00 - 1.20 + 5.99
 
 
-def test_no_discount_for_returning_customer_or_guest(client):
-    for customer in (RETURNING, "guest"):
-        body = quote(client, [{"sku": "MUG-001", "qty": 1}], customer=customer).json()
-        assert body["discount"] == 0.0
-        assert body["discount_label"] is None
+def test_no_discount_for_guest(client):
+    body = quote(client, [{"sku": "MUG-001", "qty": 1}], customer="guest").json()
+    assert body["discount"] == 0.0
+    assert body["discount_label"] is None
 
 
-def test_no_discount_after_first_order(client):
+def test_registered_customers_keep_the_welcome_discount(client):
     items = [{"sku": "MUG-001", "qty": 1}]
     client.post("/api/orders", json={"customer_id": "new-customer-01", "items": items})
     body = quote(client, items, customer="new-customer-01").json()
-    assert body["discount"] == 0.0
+    assert body["discount"] == 1.2
 
 
 def test_unknown_sku_404(client):

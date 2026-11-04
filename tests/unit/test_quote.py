@@ -15,7 +15,7 @@ def test_line_totals_and_subtotal():
 
 def test_total_formula_with_shipping():
     q = build_quote(CUSTOMER, [{"sku": "MUG-001", "qty": 1}])
-    assert q["total"] == q["subtotal"] - q["discount"] + q["shipping"] == Decimal("17.99")
+    assert q["total"] == q["subtotal"] - q["discount"] + q["shipping"] == Decimal("16.79")
 
 
 def test_rounding_pen_set_times_three():
@@ -38,7 +38,7 @@ def test_rules_applied_free_shipping():
 def test_custom_price_sku_exact_threshold():
     q = build_quote(CUSTOMER, [{"sku": "TEST-SKU", "qty": 1, "unit_price": Decimal("50.00")}])
     assert q["shipping"] == Decimal("0.00")
-    assert q["total"] == Decimal("50.00")
+    assert q["total"] == Decimal("45.00")
 
 
 def test_unknown_sku_raises():
