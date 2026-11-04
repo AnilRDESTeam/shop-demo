@@ -1,0 +1,28 @@
+# API adapter for the shop. Fields checked against docs/API.md.
+type: http
+base_url: http://127.0.0.1:8080          # local test copy only, never production
+health:
+  request: GET /api/health
+  commit_field: "$.commit"               # engine compares with git HEAD; mismatch = could not run
+before_each:
+  - request: POST /api/test/reset        # clean data before every scenario (APP_MODE=test only)
+actions:
+  quote_order:
+    request: POST /api/cart/quote
+    defaults: { customer: returning-customer-01 }
+    # TEST-SKU is the hidden product whose unit_price we may set, so a task can ask for any subtotal.
+    body:
+      customer_id: "{customer}"
+      items: [ { sku: "TEST-SKU", qty: 1, unit_price: "{subtotal}" } ]
+    read:
+      subtotal: "$.subtotal"
+      shipping: "$.shipping"
+      discount: "$.discount"
+      discount_label: "$.discount_label"
+      total: "$.total"
+safety:
+  allowed_hosts: ["127.0.0.1", "localhost"]
+  blocked_paths: ["/api/payments/*"]
+  max_requests_per_run: 200
+context:
+  tests_command: ".venv\\Scripts\\python -m pytest -q"   # existing tests: context only

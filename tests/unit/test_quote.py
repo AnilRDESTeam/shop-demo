@@ -29,16 +29,16 @@ def test_rules_applied_standard_shipping():
 
 
 def test_rules_applied_free_shipping():
-    q = build_quote(CUSTOMER, [{"sku": "HOODIE-001", "qty": 1}, {"sku": "MUG-001", "qty": 1}])
-    assert q["subtotal"] == Decimal("57.00")
+    q = build_quote(CUSTOMER, [{"sku": "HOODIE-001", "qty": 1}, {"sku": "BAG-001", "qty": 1}, {"sku": "MUG-001", "qty": 1}])
+    assert q["subtotal"] == Decimal("82.00")
     assert q["shipping"] == Decimal("0.00")
     assert q["rules_applied"] == ["free_shipping"]
 
 
 def test_custom_price_sku_exact_threshold():
-    q = build_quote(CUSTOMER, [{"sku": "TEST-SKU", "qty": 1, "unit_price": Decimal("50.00")}])
+    q = build_quote(CUSTOMER, [{"sku": "TEST-SKU", "qty": 1, "unit_price": Decimal("75.00")}])
     assert q["shipping"] == Decimal("0.00")
-    assert q["total"] == Decimal("50.00")
+    assert q["total"] == Decimal("75.00")
 
 
 def test_unknown_sku_raises():

@@ -3,7 +3,7 @@
 A small, local-only online shop with a JSON API, a simple web UI and automated tests.
 It is the **baseline** ("before") system for the Evidence Gate hackathon.
 
-**Current baseline rules:** orders of **$50.00 or more ship free** (otherwise $5.99). There are **no discounts**.
+**Current baseline rules:** orders of **$75.00 or more ship free** (otherwise $5.99). There are **no discounts**.
 
 ## 1. Prerequisites
 

@@ -69,7 +69,7 @@ Response 200:
 }
 ```
 
-Baseline rules: shipping is `0.00` when subtotal is 50.00 or more, else `5.99`; discount is always `0.00`.
+Baseline rules: shipping is `0.00` when subtotal is 75.00 or more, else `5.99`; discount is always `0.00`.
 
 ```powershell
 $body = '{"customer_id":"returning-customer-01","items":[{"sku":"TEST-SKU","qty":1,"unit_price":50.00}]}'

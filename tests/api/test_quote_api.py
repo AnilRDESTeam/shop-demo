@@ -21,16 +21,16 @@ def test_normal_quote(client):
 
 
 def test_test_sku_at_threshold_ships_free(client):
-    body = quote(client, [{"sku": "TEST-SKU", "qty": 1, "unit_price": 50.00}]).json()
+    body = quote(client, [{"sku": "TEST-SKU", "qty": 1, "unit_price": 75.00}]).json()
     assert body["shipping"] == 0.0
-    assert body["total"] == 50.0
+    assert body["total"] == 75.0
     assert body["rules_applied"] == ["free_shipping"]
 
 
 def test_test_sku_just_below_threshold_pays_shipping(client):
-    body = quote(client, [{"sku": "TEST-SKU", "qty": 1, "unit_price": 49.99}]).json()
+    body = quote(client, [{"sku": "TEST-SKU", "qty": 1, "unit_price": 74.99}]).json()
     assert body["shipping"] == 5.99
-    assert body["total"] == 55.98
+    assert body["total"] == 80.98
 
 
 def test_discount_fields_are_empty(client):
