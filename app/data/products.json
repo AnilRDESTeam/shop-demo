@@ -1,7 +1,7 @@
 [
   {"sku": "MUG-001", "name": "Coffee Mug", "price": "12.00", "description": "Ceramic 300 ml mug.", "hidden": false, "custom_price_allowed": false},
   {"sku": "TSHIRT-001", "name": "Logo T-Shirt", "price": "20.00", "description": "Cotton t-shirt with the shop logo.", "hidden": false, "custom_price_allowed": false},
-  {"sku": "NOTE-001", "name": "Notebook", "price": "8.50", "description": "A5 ruled notebook.", "hidden": false, "custom_price_allowed": false},
+  {"sku": "NOTE-001", "name": "Notebook", "price": "9.50", "description": "A5 ruled notebook.", "hidden": false, "custom_price_allowed": false},
   {"sku": "BAG-001", "name": "Tote Bag", "price": "25.00", "description": "Canvas tote bag.", "hidden": false, "custom_price_allowed": false},
   {"sku": "PEN-001", "name": "Pen Set", "price": "4.99", "description": "Set of three ballpoint pens.", "hidden": false, "custom_price_allowed": false},
   {"sku": "HOODIE-001", "name": "Hoodie", "price": "45.00", "description": "Warm fleece hoodie.", "hidden": false, "custom_price_allowed": false},

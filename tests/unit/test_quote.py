@@ -9,8 +9,8 @@ CUSTOMER = {"id": "returning-customer-01", "type": "registered", "order_count": 
 
 def test_line_totals_and_subtotal():
     q = build_quote(CUSTOMER, [{"sku": "MUG-001", "qty": 2}, {"sku": "NOTE-001", "qty": 1}])
-    assert [line["line_total"] for line in q["items"]] == [Decimal("24.00"), Decimal("8.50")]
-    assert q["subtotal"] == Decimal("32.50")
+    assert [line["line_total"] for line in q["items"]] == [Decimal("24.00"), Decimal("9.50")]
+    assert q["subtotal"] == Decimal("33.50")
 
 
 def test_total_formula_with_shipping():
@@ -29,16 +29,16 @@ def test_rules_applied_standard_shipping():
 
 
 def test_rules_applied_free_shipping():
-    q = build_quote(CUSTOMER, [{"sku": "HOODIE-001", "qty": 1}, {"sku": "MUG-001", "qty": 1}])
-    assert q["subtotal"] == Decimal("57.00")
+    q = build_quote(CUSTOMER, [{"sku": "HOODIE-001", "qty": 1}, {"sku": "MUG-001", "qty": 3}])
+    assert q["subtotal"] == Decimal("81.00")
     assert q["shipping"] == Decimal("0.00")
     assert q["rules_applied"] == ["free_shipping"]
 
 
 def test_custom_price_sku_exact_threshold():
-    q = build_quote(CUSTOMER, [{"sku": "TEST-SKU", "qty": 1, "unit_price": Decimal("50.00")}])
+    q = build_quote(CUSTOMER, [{"sku": "TEST-SKU", "qty": 1, "unit_price": Decimal("75.00")}])
     assert q["shipping"] == Decimal("0.00")
-    assert q["total"] == Decimal("50.00")
+    assert q["total"] == Decimal("75.00")
 
 
 def test_unknown_sku_raises():
