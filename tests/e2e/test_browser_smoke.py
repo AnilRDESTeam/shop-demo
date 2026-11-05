@@ -68,8 +68,9 @@ def test_free_shipping_and_receipt(page):
     expect(tid(page, "cart-free-shipping-badge")).to_be_visible()
 
     tid(page, "place-order").click()
-    expect(tid(page, "receipt-total")).to_have_text("$57.00")
-    expect(tid(page, "receipt-discount-row")).to_have_count(0)
+    expect(tid(page, "receipt-total")).to_have_text("$54.15")
+    expect(tid(page, "receipt-discount-label")).to_have_text("Loyalty 5% off")
+    expect(tid(page, "receipt-discount")).to_have_text("$2.85")
 
 
 def test_standard_shipping_for_small_cart(page):

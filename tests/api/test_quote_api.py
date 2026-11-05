@@ -14,8 +14,8 @@ def test_normal_quote(client):
         "customer_id": RETURNING,
         "items": [{"sku": "MUG-001", "name": "Coffee Mug", "unit_price": 12.0,
                    "qty": 2, "line_total": 24.0}],
-        "subtotal": 24.0, "discount": 0.0, "discount_label": None,
-        "shipping": 5.99, "total": 29.99, "currency": "USD",
+        "subtotal": 24.0, "discount": 1.2, "discount_label": "Loyalty 5% off",
+        "shipping": 5.99, "total": 28.79, "currency": "USD",
         "rules_applied": ["standard_shipping"],
     }
 
@@ -23,17 +23,17 @@ def test_normal_quote(client):
 def test_test_sku_at_threshold_ships_free(client):
     body = quote(client, [{"sku": "TEST-SKU", "qty": 1, "unit_price": 50.00}]).json()
     assert body["shipping"] == 0.0
-    assert body["total"] == 50.0
+    assert body["total"] == 47.5
     assert body["rules_applied"] == ["free_shipping"]
 
 
 def test_test_sku_just_below_threshold_pays_shipping(client):
     body = quote(client, [{"sku": "TEST-SKU", "qty": 1, "unit_price": 49.99}]).json()
     assert body["shipping"] == 5.99
-    assert body["total"] == 55.98
+    assert body["total"] == 53.48
 
 
-def test_discount_fields_are_empty(client):
+def test_new_customer_discount_fields_are_empty(client):
     body = quote(client, [{"sku": "HOODIE-001", "qty": 1}], customer="new-customer-01").json()
     assert body["discount"] == 0.0
     assert body["discount_label"] is None
@@ -94,3 +94,16 @@ def test_error_body_shape(client):
 def test_missing_customer_422(client):
     r = client.post("/api/cart/quote", json={"items": [{"sku": "MUG-001", "qty": 1}]})
     assert r.status_code == 422
+
+
+def test_guest_gets_no_discount(client):
+    body = quote(client, [{"sku": "HOODIE-001", "qty": 1}], customer="guest").json()
+    assert body["discount"] == 0.0
+    assert body["discount_label"] is None
+
+
+@pytest.mark.parametrize("price, expected", [(40.00, 2.0), (10.10, 0.51), (33.30, 1.67)])
+def test_returning_customer_discount_rounds_half_up(client, price, expected):
+    body = quote(client, [{"sku": "TEST-SKU", "qty": 1, "unit_price": price}]).json()
+    assert body["discount"] == expected
+    assert body["discount_label"] == "Loyalty 5% off"
